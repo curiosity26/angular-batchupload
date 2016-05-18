@@ -1,0 +1,28 @@
+{
+  "name": "angular-batchupload",
+  "homepage": "https://github.com/curiosity26/angular-batchupload",
+  "authors": [
+    "Alex Boyce <curiosity26@gmail.com>"
+  ],
+  "description": "Make Batch Upload available to Angular 1",
+  "main": "ng-batchupload.js",
+  "keywords": [
+    "file",
+    "upload",
+    "batch",
+    "progressive",
+    "angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "batchupload": "*",
+    "angular": "~1.5"
+  }
+}
