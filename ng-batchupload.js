@@ -140,9 +140,10 @@ angular.module('batchUpload', [])
 
                     var dialog = document.createElement('input');
                     dialog.setAttribute('type', 'file');
-                    dialog.setAttribute('multiple', true);
+                    dialog.setAttribute('multiple', batchUploadManager.settings.maxQueue > 1);
                     dialog.addEventListener('change', function(event) {
                         batchUploadManager.setFiles(event.target.files);
+                        dialog.value = null;
                     });
 
                     element.on('click', function(event) {
