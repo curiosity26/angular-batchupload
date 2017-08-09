@@ -57,7 +57,7 @@ angular.module('batchUpload', [])
                     buChunksParameter: '@?'
                 },
                 bindToController: true,
-                controller: ['$element', function($element) {
+                controller: ['$element', 'batchUploadManager', function($element, batchUploadManager) {
                     var settings = {};
 
                     this.$onInit = function() {
@@ -106,7 +106,7 @@ angular.module('batchUpload', [])
                             settings.chunksParameter = this.buChunksParameter;
                         }
 
-                        settings.manager = this.buManager || null;
+                        settings.manager = this.buManager || batchUploadManager;
 
                         this.dropzone = new FileDropZone($element[0], settings);
 
