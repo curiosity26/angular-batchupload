@@ -1,6 +1,6 @@
 {
   "name": "angular-batchupload",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A wrapper module to angular for the batchupload library",
   "main": "ng-batchupload.js",
   "scripts": {
@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/curiosity26/angular-batchupload#readme",
   "dependencies": {
-    "batchupload": "~1.0.6"
+    "batchupload": "^1.0.7"
   }
 }

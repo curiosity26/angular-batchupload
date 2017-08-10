@@ -111,69 +111,69 @@ angular.module('batchUpload', [])
                         this.dropzone = new FileDropZone($element[0], settings);
 
                         if (!!this.buOnComplete) {
-                            this.dropzone.on('complete', this.buOnComplete);
+                            settings.manager.on('complete', this.buOnComplete);
                         }
 
                         if (!!this.buOnError) {
-                            this.dropzone.on('error', this.buOnError);
+                            settings.manager.on('error', this.buOnError);
                         }
 
                         if (!!this.buOnFileStart) {
-                            this.dropzone.on('file_start', this.buOnFileStart);
+                            settings.manager.on('file_start', this.buOnFileStart);
                         }
 
                         if (!!this.buOnStart) {
-                            this.dropzone.on('start', this.buOnStart);
+                            settings.manager.on('start', this.buOnStart);
                         }
 
                         if (!!this.buOnPause) {
-                            this.dropzone.on('pause', this.buOnPause);
+                            settings.manager.on('pause', this.buOnPause);
                         }
 
                         if (!!this.buOnProgress) {
-                            this.dropzone.on('progress', this.buOnProgress);
+                            settings.manager.on('progress', this.buOnProgress);
                         }
 
                         if (!!this.buOnInvalid) {
-                            this.dropzone.on('invalud', this.buOnInvalid);
+                            settings.manager.on('invalud', this.buOnInvalid);
                         }
 
                         if (!!this.buOnQueue) {
-                            this.dropzone.on('queue', this.buOnQueue);
+                            settings.manager.on('queue', this.buOnQueue);
                         }
                     };
 
                     this.$onDestroy = function() {
                         if (!!this.buOnComplete) {
-                            this.dropzone.off('complete', this.buOnComplete);
+                            settings.manager.off('complete', this.buOnComplete);
                         }
 
                         if (!!this.buOnError) {
-                            this.dropzone.off('error', this.buOnError);
+                            settings.manager.off('error', this.buOnError);
                         }
 
                         if (!!this.buOnFileStart) {
-                            this.dropzone.off('file_start', this.buOnFileStart);
+                            settings.manager.off('file_start', this.buOnFileStart);
                         }
 
                         if (!!this.buOnStart) {
-                            this.dropzone.off('start', this.buOnStart);
+                            settings.manager.off('start', this.buOnStart);
                         }
 
                         if (!!this.buOnPause) {
-                            this.dropzone.off('pause', this.buOnPause);
+                            settings.manager.off('pause', this.buOnPause);
                         }
 
                         if (!!this.buOnProgress) {
-                            this.dropzone.off('progress', this.buOnProgress);
+                            settings.manager.off('progress', this.buOnProgress);
                         }
 
                         if (!!this.buOnInvalid) {
-                            this.dropzone.off('invalud', this.buOnInvalid);
+                            settings.manager.off('invalud', this.buOnInvalid);
                         }
 
                         if (!!this.buOnQueue) {
-                            this.dropzone.off('queue', this.buOnQueue);
+                            settings.manager.off('queue', this.buOnQueue);
                         }
                     };
                 }],
