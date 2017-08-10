@@ -58,7 +58,33 @@ angular.module('batchUpload', [])
                 },
                 bindToController: true,
                 controller: ['$element', 'batchUploadManager', function($element, batchUploadManager) {
-                    var settings = {};
+                    var settings = {},
+                        ctrl     = this,
+                        onComplete = function(e) {
+                            ctrl.buOnComplete({$event: e});
+                        },
+                        onError = function(e) {
+                            ctrl.buOnError({$event: e});
+                        },
+                        onFileStart = function(e) {
+                            ctrl.buOnFileStart({$event: e});
+                        },
+                        onStart = function(e) {
+                            ctrl.buOnStart({$event: e});
+                        },
+                        onPause = function(e) {
+                            ctrl.buOnPause({$event: e});
+                        },
+                        onProgress = function(e) {
+                            ctrl.buOnProgress({$event: e});
+                        },
+                        onInvalid = function(e) {
+                            ctrl.buOnInvalid({$event: e});
+                        },
+                        onQueue = function(e) {
+                            ctrl.buOnQueue({$event: e});
+                        }
+                    ;
 
                     this.$onInit = function() {
 
@@ -111,69 +137,69 @@ angular.module('batchUpload', [])
                         this.dropzone = new FileDropZone($element[0], settings);
 
                         if (!!this.buOnComplete) {
-                            settings.manager.on('complete', this.buOnComplete);
+                            settings.manager.on('complete', onComplete);
                         }
 
                         if (!!this.buOnError) {
-                            settings.manager.on('error', this.buOnError);
+                            settings.manager.on('error', onError);
                         }
 
                         if (!!this.buOnFileStart) {
-                            settings.manager.on('file_start', this.buOnFileStart);
+                            settings.manager.on('file_start', onFileStart);
                         }
 
                         if (!!this.buOnStart) {
-                            settings.manager.on('start', this.buOnStart);
+                            settings.manager.on('start', onStart);
                         }
 
                         if (!!this.buOnPause) {
-                            settings.manager.on('pause', this.buOnPause);
+                            settings.manager.on('pause', onPause);
                         }
 
                         if (!!this.buOnProgress) {
-                            settings.manager.on('progress', this.buOnProgress);
+                            settings.manager.on('progress', onProgress);
                         }
 
                         if (!!this.buOnInvalid) {
-                            settings.manager.on('invalud', this.buOnInvalid);
+                            settings.manager.on('invalud', onInvalid);
                         }
 
                         if (!!this.buOnQueue) {
-                            settings.manager.on('queue', this.buOnQueue);
+                            settings.manager.on('queue', onQueue);
                         }
                     };
 
                     this.$onDestroy = function() {
                         if (!!this.buOnComplete) {
-                            settings.manager.off('complete', this.buOnComplete);
+                            settings.manager.off('complete', onComplete);
                         }
 
                         if (!!this.buOnError) {
-                            settings.manager.off('error', this.buOnError);
+                            settings.manager.off('error', onError);
                         }
 
                         if (!!this.buOnFileStart) {
-                            settings.manager.off('file_start', this.buOnFileStart);
+                            settings.manager.off('file_start', onFileStart);
                         }
 
                         if (!!this.buOnStart) {
-                            settings.manager.off('start', this.buOnStart);
+                            settings.manager.off('start', onStart);
                         }
 
                         if (!!this.buOnPause) {
-                            settings.manager.off('pause', this.buOnPause);
+                            settings.manager.off('pause', onPause);
                         }
 
                         if (!!this.buOnProgress) {
-                            settings.manager.off('progress', this.buOnProgress);
+                            settings.manager.off('progress', onProgress);
                         }
 
                         if (!!this.buOnInvalid) {
-                            settings.manager.off('invalud', this.buOnInvalid);
+                            settings.manager.off('invalud', onInvalid);
                         }
 
                         if (!!this.buOnQueue) {
-                            settings.manager.off('queue', this.buOnQueue);
+                            settings.manager.off('queue', onQueue);
                         }
                     };
                 }],
