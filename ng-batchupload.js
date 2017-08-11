@@ -57,6 +57,7 @@ angular.module('batchUpload', [])
                     buChunksParameter: '@?'
                 },
                 bindToController: true,
+                controllerAs: '$budz',
                 controller: ['$element', 'batchUploadManager', function($element, batchUploadManager) {
                     var settings = {},
                         ctrl     = this,
@@ -132,74 +133,77 @@ angular.module('batchUpload', [])
                             settings.chunksParameter = this.buChunksParameter;
                         }
 
-                        settings.manager = this.buManager || batchUploadManager;
-
+                        this.manager  = settings.manager = this.buManager || batchUploadManager;
                         this.dropzone = new FileDropZone($element[0], settings);
 
                         if (!!this.buOnComplete) {
-                            settings.manager.on('complete', onComplete);
+                            this.manager.on('complete', onComplete);
                         }
 
                         if (!!this.buOnError) {
-                            settings.manager.on('error', onError);
+                            this.manager.on('error', onError);
                         }
 
                         if (!!this.buOnFileStart) {
-                            settings.manager.on('file_start', onFileStart);
+                            this.manager.on('file_start', onFileStart);
                         }
 
                         if (!!this.buOnStart) {
-                            settings.manager.on('start', onStart);
+                            this.manager.on('start', onStart);
                         }
 
                         if (!!this.buOnPause) {
-                            settings.manager.on('pause', onPause);
+                            this.manager.on('pause', onPause);
                         }
 
                         if (!!this.buOnProgress) {
-                            settings.manager.on('progress', onProgress);
+                            this.manager.on('progress', onProgress);
                         }
 
                         if (!!this.buOnInvalid) {
-                            settings.manager.on('invalud', onInvalid);
+                            this.manager.on('invalud', onInvalid);
                         }
 
                         if (!!this.buOnQueue) {
-                            settings.manager.on('queue', onQueue);
+                            this.manager.on('queue', onQueue);
                         }
                     };
 
                     this.$onDestroy = function() {
+                        if (!this.manager) {
+                            return;
+                        }
+
                         if (!!this.buOnComplete) {
-                            settings.manager.off('complete', onComplete);
+                            this.manager.off('complete', onComplete);
                         }
 
                         if (!!this.buOnError) {
-                            settings.manager.off('error', onError);
+                            this.manager.off('error', onError);
                         }
 
                         if (!!this.buOnFileStart) {
-                            settings.manager.off('file_start', onFileStart);
+                            this.manager.off('file_start', onFileStart);
                         }
 
                         if (!!this.buOnStart) {
-                            settings.manager.off('start', onStart);
+                            this.manager.off('start', onStart);
                         }
 
                         if (!!this.buOnPause) {
-                            settings.manager.off('pause', onPause);
+                            this.manager.off('pause', onPause);
                         }
 
                         if (!!this.buOnProgress) {
-                            settings.manager.off('progress', onProgress);
+                            this.manager.off('progress', onProgress);
                         }
 
                         if (!!this.buOnInvalid) {
-                            settings.manager.off('invalud', onInvalid);
+                            this.manager.off('invalid', onInvalid);
                         }
 
                         if (!!this.buOnQueue) {
-                            settings.manager.off('queue', onQueue);
+                            this.manager.off('queue', onQueue);
                         }
                     };
                 }],
@@ -211,60 +215,199 @@ angular.module('batchUpload', [])
         .directive('buDialog', ['batchUploadManager', function(batchUploadManager) {
             return {
                 restrict: 'AEC',
-                link: function(scope, element, attr) {
-                    if (attr['buUrl']) {
-                        batchUploadManager.settings.url = attr['buUrl'];
+                scope: {
+                    buManager: '=?',
+                    buOnError: '&?',
+                    buOnQueue: '&?',
+                    buOnComplete: '&?',
+                    buOnInvalid: '&?',
+                    buOnStart: '&?',
+                    buOnPause: '&?',
+                    buOnProgress: '&?',
+                    buOnFileStart: '&?',
+                    buUrl: '@?',
+                    buMethod: '@?',
+                    buDragOverClass: '@?',
+                    buAllowedTypes: '@?',
+                    buAllowedExtentions: '@?',
+                    buMaxFileSize: '@?',
+                    buMaxChunkSize: '@?',
+                    buMaxQueue: '@?',
+                    buFormFileField: '@?',
+                    buChunkParameter: '@?',
+                    buChunksParameter: '@?'
+                },
+                bindToController: true,
+                controllerAs: '$budialog',
+                controller: ['batchUploadManager', '$document', '$element',
+                    function(batchUploadManager, $document, $element) {
+                    var ctrl     = this,
+                        dialog   = $document[0].createElement('input'),
+                        onComplete = function(e) {
+                            ctrl.buOnComplete({$event: e});
+                        },
+                        onError = function(e) {
+                            ctrl.buOnError({$event: e});
+                        },
+                        onFileStart = function(e) {
+                            ctrl.buOnFileStart({$event: e});
+                        },
+                        onStart = function(e) {
+                            ctrl.buOnStart({$event: e});
+                        },
+                        onPause = function(e) {
+                            ctrl.buOnPause({$event: e});
+                        },
+                        onProgress = function(e) {
+                            ctrl.buOnProgress({$event: e});
+                        },
+                        onInvalid = function(e) {
+                            ctrl.buOnInvalid({$event: e});
+                        },
+                        onQueue = function(e) {
+                            ctrl.buOnQueue({$event: e});
+                        }
+                    ;
+
+                    this.$onInit = function() {
+
+                        this.manager = this.buManager || batchUploadManager;
+
+                        if (this.buUrl) {
+                            this.manager.settings.url = this.buUrl
+                        }
+
+                        if (this.buMethod) {
+                            this.manager.settings.method = this.buMethod;
+                        }
+
+                        if (this.buDragOverClass) {
+                            this.dragOverClass = this.buDragOverClass;
+                        }
+
+                        if (this.buAllowedTypes) {
+                            this.manager.settings.allowedTypes = this.buAllowedTypes.split(' ');
+                        }
+
+                        if (this.buAllowedExtentions) {
+                            this.manager.settings.allowedExtensions = this.buAllowedExtensions.split(' ');
+                        }
+
+                        if (this.buMaxFileSize) {
+                            this.manager.settings.maxFileSize = this.buMaxFileSize;
+                        }
+
+                        if (this.buMaxChunkSize) {
+                            this.manager.settings.maxChunkSize = this.buMaxChunkSize;
+                        }
+
+                        if (this.buMaxQueue) {
+                            this.manager.settings.maxQueue = this.buMaxQueue;
+                        }
+
+                        if (this.buFormFileField) {
+                            this.manager.settings.formFileField = this.buFormFileField;
+                        }
+
+                        if (this.buChunkParameter) {
+                            this.manager.settings.chunkParameter = this.buChunkParameter;
+                        }
+
+                        if (this.buChunksParameter) {
+                            this.manager.settings.chunksParameter = this.buChunksParameter;
+                        }
+
+                        // Bind Events
+
+                        if (!!this.buOnComplete) {
+                            this.manager.on('complete', onComplete);
+                        }
+
+                        if (!!this.buOnError) {
+                            this.manager.on('error', onError);
+                        }
+
+                        if (!!this.buOnFileStart) {
+                            this.manager.on('file_start', onFileStart);
+                        }
+
+                        if (!!this.buOnStart) {
+                            this.manager.on('start', onStart);
+                        }
+
+                        if (!!this.buOnPause) {
+                            this.manager.on('pause', onPause);
+                        }
+
+                        if (!!this.buOnProgress) {
+                            this.manager.on('progress', onProgress);
+                        }
+
+                        if (!!this.buOnInvalid) {
+                            this.manager.on('invalud', onInvalid);
+                        }
+
+                        if (!!this.buOnQueue) {
+                            this.manager.on('queue', onQueue);
+                        }
+
+                        dialog.setAttribute('type', 'file');
+                        dialog.setAttribute('multiple', this.manager.maxQueue > 1);
+                        dialog.addEventListener('change', function(event) {
+                            ctrl.setFiles(event.target.files);
+                            dialog.value = null;
+                        });
+
+                        $element.on('click', function(event) {
+                            event.preventDefault();
+                            dialog.click();
+                        });
+                    };
+
+                    this.$onDestroy = function() {
+                        if (!this.manager) {
+                            return;
+                        }
+
+                        if (!!this.buOnComplete) {
+                            this.manager.off('complete', onComplete);
+                        }
+
+                        if (!!this.buOnError) {
+                            this.manager.off('error', onError);
+                        }
+
+                        if (!!this.buOnFileStart) {
+                            this.manager.off('file_start', onFileStart);
+                        }
+
+                        if (!!this.buOnStart) {
+                            this.manager.off('start', onStart);
+                        }
+
+                        if (!!this.buOnPause) {
+                            this.manager.off('pause', onPause);
+                        }
+
+                        if (!!this.buOnProgress) {
+                            this.manager.off('progress', onProgress);
+                        }
+
+                        if (!!this.buOnInvalid) {
+                            this.manager.off('invalid', onInvalid);
+                        }
+
+                        if (!!this.buOnQueue) {
+                            this.manager.off('queue', onQueue);
+                        }
+
+                        dialog = undefined;
+                    };
+
+                    this.setFiles = function(files) {
+                        this.manager.setFiles(files);
                     }
-
-                    if (attr['buMethod']) {
-                        batchUploadManager.method = attr['buMethod'];
-                    }
-
-                    if (attr['buAllowedTypes']) {
-                        batchUploadManager.allowedTypes = attr['buAllowedTypes'].split(' ');
-                    }
-
-                    if (attr['buAllowedExtentions']) {
-                        batchUploadManager.allowedExtensions = attr['buAllowedExtensions'].split(' ');
-                    }
-
-                    if (attr['buMaxFileSize']) {
-                        batchUploadManager.maxFileSize = attr['buMaxFileSize'];
-                    }
-
-                    if (attr['buMaxChunkSize']) {
-                        batchUploadManager.maxChunkSize = attr['buMaxChunkSize'];
-                    }
-
-                    if (attr['buMaxQueue']) {
-                        batchUploadManager.maxQueue = attr['buMaxQueue'];
-                    }
-
-                    if (attr['buFormFileField']) {
-                        batchUploadManager.formFileField = attr['buFormFileField'];
-                    }
-
-                    if (attr['buChunkParameter']) {
-                        batchUploadManager.chunkParameter = attr['buChunkParameter'];
-                    }
-
-                    if (attr['buChunksParameter']) {
-                        batchUploadManager.chunksParameter = attr['buChunksParameter'];
-                    }
-
-                    var dialog = document.createElement('input');
-                    dialog.setAttribute('type', 'file');
-                    dialog.setAttribute('multiple', batchUploadManager.settings.maxQueue > 1);
-                    dialog.addEventListener('change', function(event) {
-                        batchUploadManager.setFiles(event.target.files);
-                        dialog.value = null;
-                    });
-
-                    element.on('click', function(event) {
-                        event.preventDefault();
-                        dialog.click();
-                    });
-                }
+                }]
             }
         }])
         ;
