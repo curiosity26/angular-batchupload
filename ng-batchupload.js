@@ -161,7 +161,7 @@ angular.module('batchUpload', [])
                         }
 
                         if (!!this.buOnInvalid) {
-                            this.manager.on('invalud', onInvalid);
+                            this.manager.on('invalid', onInvalid);
                         }
 
                         if (!!this.buOnQueue) {
@@ -344,7 +344,7 @@ angular.module('batchUpload', [])
                         }
 
                         if (!!this.buOnInvalid) {
-                            this.manager.on('invalud', onInvalid);
+                            this.manager.on('invalid', onInvalid);
                         }
 
                         if (!!this.buOnQueue) {
